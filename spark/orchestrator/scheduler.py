@@ -12,7 +12,7 @@ stages = [
 
 for stage, medallion in stages:
     print(f'{stage.capitalize()} {medallion}'.center(100, '_'))
-    script_path = f'./pipeline/notebooks/{stage}.py'
+    script_path = f'./spark/pipeline/{stage}.py'
     
     env = os.environ.copy()
     
