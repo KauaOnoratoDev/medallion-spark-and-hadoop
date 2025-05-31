@@ -16,6 +16,19 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       retries: 5
+    
+  retail-app:
+    depends_on:
+      postgres:
+          condition: service_healthy
+    build: 
+      context: ./retail_app
+    container_name: retail-app
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=retail
+      - DB_USER=appuser
+      - DB_PASSWORD=apppassword
 
 volumes:
   pgdata:
