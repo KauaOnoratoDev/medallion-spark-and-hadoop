@@ -3,7 +3,9 @@ from pyspark.sql import SparkSession
 from dotenv import load_dotenv
 
 load_dotenv()
-spark_warehouse_dir = '/tmp/spark-warehouse'
+
+hdfs_url = os.getenv('HDFS_URL')
+spark_warehouse_dir = f'{hdfs_url}/tmp/spark-warehouse'
 
 spark: SparkSession = SparkSession.builder.appName("Ingestion").config("spark.sql.warehouse.dir", spark_warehouse_dir).getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
@@ -12,7 +14,7 @@ database = os.getenv("DB_NAME")
 user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 jdbc_url = f"jdbc:postgresql://{os.getenv('DB_HOST')}:5432/{database}"
-hdfs_base_path = f"{os.getenv('HDFS_URL')}/datalake_ingestion"
+hdfs_base_path = f"{hdfs_url}/user/hadoop/datalake_ingestion"
 
 tables = [
     'orders',

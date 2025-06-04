@@ -4,10 +4,10 @@ import os
 
 
 load_dotenv()
-spark_warehouse_dir = '/tmp/spark-warehouse'
 hdfs_url = os.getenv('HDFS_URL')
-hdfs_silver_path = f"{hdfs_url}/datalake_transformation/allorders"
-hdfs_gold_path = f"{hdfs_url}/datalake_serving"
+spark_warehouse_dir = f'{hdfs_url}/tmp/spark-warehouse'
+hdfs_silver_path = f"{hdfs_url}/user/hadoop/datalake_transformation/allorders"
+hdfs_gold_path = f"{hdfs_url}/user/hadoop/datalake_serving"
 
 spark: SparkSession = SparkSession.builder.appName("Serving") \
     .config("spark.sql.warehouse.dir", spark_warehouse_dir) \

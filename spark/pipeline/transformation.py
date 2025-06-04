@@ -4,16 +4,16 @@ from  pyspark.sql.functions import col, to_date
 from dotenv import load_dotenv
 
 load_dotenv()
-spark_warehouse_dir = '/tmp/spark-warehouse'
+
+hdfs_url = os.getenv('HDFS_URL')
+spark_warehouse_dir = f'{hdfs_url}/tmp/spark-warehouse'
 
 spark: SparkSession = SparkSession.builder.appName("Transformation").config("spark.sql.warehouse.dir", spark_warehouse_dir).getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
-hdfs_url = os.getenv('HDFS_URL')
-
-hdfs_bronze_orders_path = f"{hdfs_url}/datalake_ingestion/orders"
-hdfs_bronze_ordershistory_path = f"{hdfs_url}/datalake_ingestion/ordershistory"
-hdfs_silver_path = f"{hdfs_url}/datalake_transformation/allorders"
+hdfs_bronze_orders_path = f"{hdfs_url}/user/hadoop/datalake_ingestion/orders"
+hdfs_bronze_ordershistory_path = f"{hdfs_url}/user/hadoop/datalake_ingestion/ordershistory"
+hdfs_silver_path = f"{hdfs_url}/user/hadoop/datalake_transformation/allorders"
 
 joined_dataframe_query = """
     SELECT
