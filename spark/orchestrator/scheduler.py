@@ -15,6 +15,7 @@ for stage, medallion in stages:
     script_path = f'./pipeline/{stage}.py'
     
     env = os.environ.copy()
+    env['HADOOP_USER_NAME'] = 'spark'
     
     if stage == 'ingestion':
         env['DB_USER'] = os.getenv('DB_USER')
