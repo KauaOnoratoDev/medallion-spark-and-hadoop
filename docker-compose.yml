@@ -16,6 +16,8 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       retries: 5
+    networks:
+      - default
     
   retail-app:
     depends_on:
@@ -58,11 +60,40 @@ services:
     depends_on:
       - namenode
 
+  spark:
+    build:
+      context: ./spark
+    container_name: spark
+    depends_on:
+      postgres:
+        condition: service_healthy
+      namenode:
+        condition: service_started
+      retail-app:
+        condition: service_completed_successfully
+
+    volumes:
+      - spark_data:/opt/spark/work-dir
+    environment:
+      REF: "email-remetente@gmail.com"
+      ADD: "email-destinatario@any.com"
+      PASS: "senha-app-email"
+      DB_USER: "sparkuser"
+      DB_PASSWORD: "sparkpassword"
+      DB_HOST: "postgres"
+      DB_NAME: "retail"
+      HDFS_URL: "hdfs://namenode:8020"
+    networks:
+      - hadoop
+      - default
+
 
 volumes:
   pgdata:
   hadoop_namenode:
   hadoop_datanode:
+  spark_data:
 
 networks:
   hadoop:
+  default:
