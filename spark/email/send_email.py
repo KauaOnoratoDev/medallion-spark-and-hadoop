@@ -22,18 +22,21 @@ files = [
     'deliveries_count.xlsx',
 ]
 
-for file in files:
-    with open(f'excel/files/{file}', 'rb') as f:
-        content = f.read()
-        msg.add_attachment(
-            content,
-            maintype='application', 
-            subtype='vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-            filename=file
-        )
+try:
+    for file in files:
+        with open(f'excel/files/{file}', 'rb') as f:
+            content = f.read()
+            msg.add_attachment(
+                content,
+                maintype='application', 
+                subtype='vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                filename=file
+            )
 
-with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-    smtp.login(referent, password)
-    smtp.send_message(msg)
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(referent, password)
+        smtp.send_message(msg)
 
-print('Email enviado com sucesso!')
+    print('Email enviado com sucesso!')
+except Exception as e:
+    print(f'Erro ao enviar o email: {str(e)}')
