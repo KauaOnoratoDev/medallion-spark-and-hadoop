@@ -15,5 +15,9 @@ sleep 5
 # Executa o script de criação de diretórios no HDFS
 /usr/local/bin/create_hdfs_dir.sh
 
+# Força a saída do Safe Mode
+echo "⏳ Forçando saída do Safe Mode..."
+hdfs dfsadmin -safemode leave
+
 # Mantém o container ativo
 wait
